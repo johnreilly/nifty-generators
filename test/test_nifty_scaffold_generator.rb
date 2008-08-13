@@ -520,11 +520,22 @@ class TestNiftyScaffoldGenerator < Test::Unit::TestCase
     end
     
     context "generator with factory_girl option" do
-      rails_generator :nifty_scaffold, "LineItem", "name:string", :factory_girl => true
+      rails_generator :nifty_scaffold, "LineItem", "name:string", "order_id:integer", "description:text", :factory_girl => true
       
       should_generate_file "test/factories/line_item.rb"
       should_not_generate_file "spec/fixtures/line_items.yml"
-      should_not_generate_file "test/fixtures/line_items.yml"  
+      should_not_generate_file "test/fixtures/line_items.yml" 
+      
+      should "contain lines for attributes" do
+        assert_generated_file "test/factories/line_item.rb" do |body|
+          assert_match "line_item.order_id \'1\'", body
+          assert_match "line_item.description \'MyText\'", body
+          
+          # factory_girl can't handle .name attributes
+          assert_no_match /"line_item.name"/, body 
+          assert_match "line_item.add_attribute \'name\', \'MyString\'", body
+        end
+      end 
     end
   end
 end
