@@ -520,7 +520,7 @@ class TestNiftyScaffoldGenerator < Test::Unit::TestCase
     end
     
     context "generator with factory_girl option" do
-      rails_generator :nifty_scaffold, "LineItem", :factory_girl => true
+      rails_generator :nifty_scaffold, "LineItem", "name:string", :factory_girl => true
       
       should_generate_file "test/factories/line_item.rb"
       should_not_generate_file "spec/fixtures/line_items.yml"
