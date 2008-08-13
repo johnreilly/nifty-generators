@@ -1,5 +1,5 @@
-Factory.define <%= class_name %> do |<%= class_name %>|
+Factory.define :<%= singular_name %> do |<%= singular_name %>|
   <%- for attribute in attributes -%>
-    <%= class_name %>.<%= attribute.name %> '<%= attribute.default %>'
+    <%= factory_line(attribute) %>
   <%- end -%>
 end

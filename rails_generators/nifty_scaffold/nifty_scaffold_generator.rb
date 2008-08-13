@@ -183,6 +183,16 @@ class NiftyScaffoldGenerator < Rails::Generator::Base
     end
   end
   
+  # creates correct attribute lines for factory_girl. 
+  # taken from http://github.com/technicalpickles/shoulda_generator
+  def factory_line(attribute)
+    unless attribute.name == 'name'
+      "#{singular_name}.#{attribute.name} '#{attribute.default}'"
+    else
+      "#{singular_name}.add_attribute '#{attribute.name}', '#{attribute.default}'"
+    end
+  end
+  
   def rspec?
     test_framework == :rspec
   end
